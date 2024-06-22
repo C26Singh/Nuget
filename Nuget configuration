@@ -1,0 +1,118 @@
+
+NuGet is a package manager for .NET that simplifies the process of incorporating third-party libraries into your .NET projects.
+Visual Studio
+1. Package Manager Console
+Tools > NuGet Package Manager > Package Manager Console
+Install-Package <PackageName>
+Update-Package <PackageName>
+Uninstall-Package <PackageName>
+
+
+
+2. NuGet Package Manager UI
+Right-click the project in Solution Explorer and select Manage NuGet Packages.
+----------------------------------------------------------------
+NET CLI:
+
+Open a terminal or command prompt.
+Navigate to your project directory.
+Use the following command
+dotnet add package <PackageName>
+dotnet add package <PackageName> --version <NewVersion>
+dotnet remove package <PackageName>
+-----------------------------------------------------------------
+Creating and Publishing NuGet Packages
+Creating a Package:
+Create a .nuspec file or use a .NET project file (.csproj, .vbproj) with the necessary metadata.
+
+Pack the project using:
+dotnet pack
+
+Publishing a Package:
+
+Use the following command, replacing <API_KEY> with your NuGet API key:
+dotnet nuget push <PackageName>.nupkg -k <API_KEY> -s https://api.nuget.org/v3/index.json
+
+---------------------------------------------------------------------------------------------
+Step-by-Step Guide to Creating a NuGet Package
+1. Add Package Metadata in .csproj
+<!-- MyNuGetPackage.csproj -->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>MyNuGetPackage</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Your Name</Authors>
+    <Company>Your Company</Company>
+    <Description>A sample NuGet package</Description>
+    <PackageTags>utility sample</PackageTags>
+    <RepositoryUrl>https://github.com/yourusername/MyNuGetPackage</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>
+
+Build and Create the Package
+
+Using Visual Studio:
+
+Right-click the project in Solution Explorer.
+Select Pack.
+The package will be created in the bin\Debug or bin\Release folder, depending on your build configuration.
+
+Using .NET CLI:
+dotnet pack
+This command will generate a .nupkg file in the bin\Debug or bin\Release directory.
+
+5. Test the Package Locally
+
+Add the local package source:
+dotnet nuget add source -n local-source ./path/to/package/folder
+
+Add the package to your new project
+dotnet add package MyNuGetPackage --source local-source
+---------------------------------------------------------------------------------
+Publish the Package
+To publish the package to NuGet.org, you need an API key from NuGet.org.
+Get your API key from NuGet.org.
+
+Publish the package using the .NET CLI:
+dotnet nuget push ./bin/Release/MyNuGetPackage.1.0.0.nupkg -k YOUR_NUGET_API_KEY -s https://api.nuget.org/v3/index.json
+
+--------------------------------------------------------------------------------------
+Step-by-Step Guide to Using a .nuspec File
+Create the .nuspec File
+
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>MyNuGetPackage</id>
+    <version>1.0.0</version>
+    <authors>Your Name</authors>
+    <owners>Your Name</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A sample NuGet package</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2024</copyright>
+    <tags>utility sample</tags>
+    <dependencies>
+      <!-- Example: <dependency id="Newtonsoft.Json" version="12.0.3" /> -->
+    </dependencies>
+  </metadata>
+</package>
+
+
+4. Pack the NuGet Package
+Use the nuget.exe CLI to pack your project. You can download nuget.exe from the NuGet website.
+Command to Pack:
+nuget pack MyNuGetPackage.nuspec
+
+This will generate a .nupkg file in the current directory.
+
+Files Section: If your project contains additional files (e.g., content files, transform files), you can specify them in the <files> section of the .nuspec file.
+
+
+
+
+
